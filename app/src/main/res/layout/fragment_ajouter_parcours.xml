@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AjouterParcoursFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/tv_logo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/parcours"
+            android:textAlignment="center"
+            android:textSize="50sp"
+            android:layout_marginStart="25dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center_horizontal"
+            android:layout_marginLeft="25dp" />
+
+        <EditText
+            android:id="@+id/titre_parcours"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/et_custom"
+            android:hint="@string/titre"
+            android:inputType="text"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:autofillHints="@string/titre" />
+
+        <EditText
+            android:id="@+id/description_parcours"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/et_custom"
+            android:hint="@string/description"
+            android:inputType="text"
+            android:padding="15dp"
+            android:textSize="15sp"
+            android:autofillHints="@string/description" />
+
+        <EditText
+            android:id="@+id/categorie"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:hint="@string/categorie"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="15dp"
+            android:inputType="text"
+            android:background="@drawable/et_custom"
+            android:textSize="15sp"
+            android:autofillHints="@string/categorie" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/patient"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:textSize="15sp"/>
+
+        <Spinner
+            android:id="@+id/spinner"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/et_custom"
+            android:entries="@array/liste_patients"
+            android:padding="15dp"
+            android:textSize="15sp" />
+
+        <LinearLayout
+            android:id="@+id/list_activite"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/activite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="25dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:gravity="center_horizontal"
+                android:text="@string/activite"
+                android:textAlignment="center"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/activite_item"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/titre_activite"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:autofillHints="@string/titre"
+                android:background="@drawable/et_custom"
+                android:hint="@string/titre"
+                android:inputType="text"
+                android:padding="15dp"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/description_activite"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:autofillHints="@string/description"
+                android:background="@drawable/et_custom"
+                android:hint="@string/description"
+                android:inputType="text"
+                android:padding="15dp"
+                android:textSize="15sp" />
+
+            <EditText
+                android:id="@+id/duree"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:autofillHints="@string/duree"
+                android:background="@drawable/et_custom"
+                android:hint="@string/duree"
+                android:inputType="text"
+                android:padding="15dp"
+                android:textSize="15sp" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_ajouter_activite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom"
+            android:padding="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@android:color/white"
+            android:text="@string/ajouter_activite"
+            android:drawableRight="@drawable/ic_add"
+            android:drawableEnd="@drawable/ic_add" />
+
+        <Button
+            android:id="@+id/btn_valider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@android:color/white"
+            android:text="@string/valider"/>
+
+        <Button
+            android:id="@+id/btn_annuler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="30dp"
+            android:textColor="@android:color/white"
+            android:text="@string/annuler" />
+
+    </LinearLayout>
+
+</ScrollView>

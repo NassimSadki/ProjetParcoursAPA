@@ -2,7 +2,10 @@ package com.example.projetparcoursapa;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
+import android.graphics.RectF;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -24,22 +27,48 @@ public class EspacePatient extends AppCompatActivity {
         // The week view has infinite scrolling horizontally. We have to provide the events of a
         // month every time the month changes on the week view.
         mWeekView.setMonthChangeListener(mMonthChangeListener);
+
+
+        mWeekView.setOnEventClickListener(onEventClick);
     }
 
-    MonthLoader.MonthChangeListener mMonthChangeListener = new MonthLoader.MonthChangeListener() {
-        @Override
-        public List<WeekViewEvent> onMonthChange(int newYear, int newMonth) {
-            // Populate the week view with some events.
-            List<WeekViewEvent> events = getEvents(newYear, newMonth);
-            return events;
+    WeekView.EventClickListener onEventClick = (event, eventRect) -> {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(event.getStartTime().getTime());
+        String heureDebut = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+        String minuteDebut;
+        if(calendar.get(Calendar.MINUTE) == 0){
+            minuteDebut = "00";
         }
+        else{
+            minuteDebut = String.valueOf(calendar.get(Calendar.MINUTE));
+        }
+        calendar.setTime(event.getEndTime().getTime());
+        String heureFin = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
+        String minuteFin;
+        if(calendar.get(Calendar.MINUTE) == 0){
+            minuteFin = "00";
+        }
+        else{
+            minuteFin = String.valueOf(calendar.get(Calendar.MINUTE));
+        }
+
+        // display info of the clicked event
+        Toast.makeText(this, "Clicked " + event.getName()
+                + "\nHeure début " + heureDebut + "h" + minuteDebut
+                + "\nHeure fin " + heureFin + "h" + minuteFin
+                , Toast.LENGTH_LONG).show();
     };
 
+
+    // Populate the week view with some events.
+    MonthLoader.MonthChangeListener mMonthChangeListener = this::getEvents;
+
     private List<WeekViewEvent> getEvents(int newYear, int newMonth){
-        List<WeekViewEvent> events = new ArrayList<WeekViewEvent>();
+        List<WeekViewEvent> events = new ArrayList<>();
 
         Calendar startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.HOUR_OF_DAY, 8);
         startTime.set(Calendar.MINUTE, 0);
         startTime.set(Calendar.MONTH, newMonth-1);
         startTime.set(Calendar.YEAR, newYear);
@@ -51,7 +80,7 @@ public class EspacePatient extends AppCompatActivity {
         events.add(event);
 
         startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.HOUR_OF_DAY, 8);
         startTime.set(Calendar.MINUTE, 30);
         startTime.set(Calendar.MONTH, newMonth-1);
         startTime.set(Calendar.YEAR, newYear);
@@ -64,7 +93,7 @@ public class EspacePatient extends AppCompatActivity {
         events.add(event);
 
         startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 4);
+        startTime.set(Calendar.HOUR_OF_DAY, 9);
         startTime.set(Calendar.MINUTE, 20);
         startTime.set(Calendar.MONTH, newMonth-1);
         startTime.set(Calendar.YEAR, newYear);
@@ -76,7 +105,7 @@ public class EspacePatient extends AppCompatActivity {
         events.add(event);
 
         startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 5);
+        startTime.set(Calendar.HOUR_OF_DAY, 16);
         startTime.set(Calendar.MINUTE, 30);
         startTime.set(Calendar.MONTH, newMonth-1);
         startTime.set(Calendar.YEAR, newYear);
@@ -88,7 +117,7 @@ public class EspacePatient extends AppCompatActivity {
         events.add(event);
 
         startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 5);
+        startTime.set(Calendar.HOUR_OF_DAY, 14);
         startTime.set(Calendar.MINUTE, 0);
         startTime.set(Calendar.MONTH, newMonth-1);
         startTime.set(Calendar.YEAR, newYear);
@@ -102,7 +131,7 @@ public class EspacePatient extends AppCompatActivity {
 
         startTime = Calendar.getInstance();
         startTime.set(Calendar.DAY_OF_MONTH, 15);
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.HOUR_OF_DAY, 10);
         startTime.set(Calendar.MINUTE, 0);
         startTime.set(Calendar.MONTH, newMonth-1);
         startTime.set(Calendar.YEAR, newYear);
@@ -114,7 +143,7 @@ public class EspacePatient extends AppCompatActivity {
 
         startTime = Calendar.getInstance();
         startTime.set(Calendar.DAY_OF_MONTH, 1);
-        startTime.set(Calendar.HOUR_OF_DAY, 3);
+        startTime.set(Calendar.HOUR_OF_DAY, 8);
         startTime.set(Calendar.MINUTE, 0);
         startTime.set(Calendar.MONTH, newMonth-1);
         startTime.set(Calendar.YEAR, newYear);
@@ -139,6 +168,7 @@ public class EspacePatient extends AppCompatActivity {
         return events;
     }
 
+    @SuppressLint("DefaultLocale")
     private String getEventTitle(Calendar time) {
         return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
     }

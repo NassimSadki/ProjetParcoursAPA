@@ -29,8 +29,10 @@ public class LoginFragment extends Fragment {
         Button boutonConnecter = view.findViewById(R.id.btn_login);
         MainActivity activity = (MainActivity) getActivity();
         boutonConnecter.setOnClickListener(v -> {
-            Intent espacePatientIntent = new Intent(activity.getApplicationContext(), EspacePatient.class);
-            startActivity(espacePatientIntent);
+            //Intent espacePatientIntent = new Intent(activity.getApplicationContext(), EspacePatient.class);
+            //startActivity(espacePatientIntent);
+            Intent espaceMedecinIntent = new Intent(activity.getApplicationContext(), EspaceMedecin.class);
+            startActivity(espaceMedecinIntent);
         });
     }
 

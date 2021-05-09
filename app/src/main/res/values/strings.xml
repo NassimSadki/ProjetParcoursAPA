@@ -19,5 +19,26 @@
         <item>Intervenant</item>
         <item>Patient</item>
     </string-array>
+    <string name="creer_parcours">Créer un parcours APA</string>
+    <string name="titre">Titre</string>
+    <string name="parcours">Parcours APA</string>
+    <string name="description">Description</string>
+    <string name="categorie">Catégorie</string>
+    <string name="patient">Patient</string>
+    <string name="valider">Valider</string>
+    <string name="activite">Activité(s)</string>
+    <string name="duree">Durée</string>
+    <string name="ajouter_activite">Ajouter une activité</string>
+    <string name="annuler">Annuler</string>
+    <string name="icone_fermer">icone fermer</string>
+    <string name="activite_item">Activité :</string>
+    <string name="activite_structure">L\'activité se déroule dans une structure ?</string>
+    <string name="oui">Oui</string>
+    <string name="non">Non</string>
+    <string-array name="liste_patients">
+        <item>NomPatient1 PrenomPatient1</item>
+        <item>NomPatient2 PrenomPatient2</item>
+        <item>NomPatient3 PrenomPatient3</item>
+    </string-array>
 </resources>
 
