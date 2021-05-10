@@ -35,6 +35,9 @@
     <string name="activite_structure">L\'activité se déroule dans une structure ?</string>
     <string name="oui">Oui</string>
     <string name="non">Non</string>
+    <string name="ok">OK</string>
+    <string name="reprogrammer">Reprogrammer</string>
+    <string name="assigner_horaire">Assigner horaire</string>
     <string-array name="liste_patients">
         <item>NomPatient1 PrenomPatient1</item>
         <item>NomPatient2 PrenomPatient2</item>

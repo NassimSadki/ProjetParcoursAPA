@@ -33,6 +33,7 @@ public class AjouterParcoursFragment extends Fragment {
         Button boutonAnnuler = view.findViewById(R.id.btn_annuler);
         boutonAnnuler.setOnClickListener(v -> {
             // on ferme le Fragment
+            assert getFragmentManager() != null;
             getFragmentManager().beginTransaction().remove(AjouterParcoursFragment.this).commit();
             // on réaffiche le bouton pour créer un parcours
             EspaceMedecin.setButtonVisible();

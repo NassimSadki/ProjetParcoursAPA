@@ -9,6 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjetParcoursAPA">
+        <activity android:name=".EspaceIntervenant" />
         <activity
             android:name=".EspaceMedecin"
             android:configChanges="keyboardHidden|orientation|screenSize" />

@@ -3,15 +3,16 @@ package com.example.projetparcoursapa;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -23,15 +24,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class EspacePatient extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+public class EspaceIntervenant extends AppCompatActivity implements AdapterView.OnItemSelectedListener,
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
+    LinearLayout linearLayout;
     private int day, month, year;
     private int myday, myMonth, myYear;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_espace_patient);
+        setContentView(R.layout.activity_espace_intervenant);
 
         // Get a reference for the week view in the layout.
         WeekView mWeekView = findViewById(R.id.weekView);
@@ -39,64 +42,41 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
         // month every time the month changes on the week view.
         mWeekView.setMonthChangeListener(mMonthChangeListener);
 
+        linearLayout = findViewById(R.id.linear_layout);
 
-        mWeekView.setOnEventClickListener(onEventClick);
-    }
+        Spinner spinner = findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(this);
 
-    WeekView.EventClickListener onEventClick = (event, eventRect) -> {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(event.getStartTime().getTime());
-        String heureDebut = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-        String minuteDebut;
-        if(calendar.get(Calendar.MINUTE) == 0){
-            minuteDebut = "00";
-        }
-        else{
-            minuteDebut = String.valueOf(calendar.get(Calendar.MINUTE));
-        }
-        calendar.setTime(event.getEndTime().getTime());
-        String heureFin = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-        String minuteFin;
-        if(calendar.get(Calendar.MINUTE) == 0){
-            minuteFin = "00";
-        }
-        else{
-            minuteFin = String.valueOf(calendar.get(Calendar.MINUTE));
-        }
-
-        // only for test purpose
-        // display info of the clicked event
-        Toast.makeText(this, "Clicked " + event.getName()
-                + "\nHeure début " + heureDebut + "h" + minuteDebut
-                + "\nHeure fin " + heureFin + "h" + minuteFin
-                , Toast.LENGTH_LONG).show();
-
-        // TODO: display info of the clicked event in the custom dialog
-
-        // display custom dialog
-        showCustomDialog(R.layout.dialog_afficher_seance, event.getColor());
-    };
-
-    private void showCustomDialog(int layout, int color){
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(EspacePatient.this);
-        View layoutView = getLayoutInflater().inflate(layout, null);
-        LinearLayout linearLayout = layoutView.findViewById(R.id.linear_layout);
-        linearLayout.setBackgroundColor(color);
-        Button dialogButton = layoutView.findViewById(R.id.btn_ok);
-        dialogBuilder.setView(layoutView);
-        AlertDialog alertDialog = dialogBuilder.create();
-        alertDialog.show();
-        dialogButton.setOnClickListener(view -> alertDialog.dismiss());
-        Button reprogrammerButton = layoutView.findViewById(R.id.btn_reprogrammer);
+        Button reprogrammerButton = findViewById(R.id.btn_assigner_horaire);
         reprogrammerButton.setOnClickListener(v -> {
             Calendar calendar = Calendar.getInstance();
             year = calendar.get(Calendar.YEAR);
             month = calendar.get(Calendar.MONTH);
             day = calendar.get(Calendar.DAY_OF_MONTH);
-            DatePickerDialog datePickerDialog = new DatePickerDialog(EspacePatient.this, EspacePatient.this,year, month,day);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(EspaceIntervenant.this,
+                    EspaceIntervenant.this,year, month,day);
             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
             datePickerDialog.show();
         });
+    }
+
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        // patient selected
+        // TODO: get selected Patient with parent.getItemAtPosition(pos) once Patient class is created
+
+        // display patient calendar and pending activities
+        linearLayout.setVisibility(View.VISIBLE);
+
+        Toast.makeText(this, "Clicked " + parent.getItemAtPosition(pos)
+                , Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // no patient selected
+
+        // no calendar or activities to display
+        linearLayout.setVisibility(View.GONE);
     }
 
     @Override
@@ -107,13 +87,12 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
         int minute = c.get(Calendar.MINUTE);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(EspacePatient.this,
-                EspacePatient.this, hour, minute, DateFormat.is24HourFormat(this));
+        TimePickerDialog timePickerDialog = new TimePickerDialog(EspaceIntervenant.this,
+                EspaceIntervenant.this, hour, minute, DateFormat.is24HourFormat(this));
         timePickerDialog.show();
     }
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
         // only for test purpose
         // display info of the selected date time
         Toast.makeText(this, "Year: " + myYear + "\n" +
@@ -125,11 +104,13 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
         // TODO: process selected date time
     }
 
-
-    // Populate the week view with some events.
+    // Populate the week view with selected patient events.
     MonthLoader.MonthChangeListener mMonthChangeListener = this::getEvents;
 
     private List<WeekViewEvent> getEvents(int newYear, int newMonth){
+        // placeholder week view
+        // TODO: display events of the selected patient
+
         List<WeekViewEvent> events = new ArrayList<>();
 
         Calendar startTime = Calendar.getInstance();
@@ -201,4 +182,5 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
     private String getEventTitle(Calendar time) {
         return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
     }
+
 }

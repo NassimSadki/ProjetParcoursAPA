@@ -45,11 +45,35 @@
         android:textSize="15sp"
         android:autofillHints="@string/password" />
 
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="(temporaire) Simuler le profil : "
+        android:layout_below="@id/et_password"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textSize="15sp"/>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@id/textView"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/et_custom"
+        android:entries="@array/liste_profils"
+        android:padding="15dp"
+        android:textSize="15sp" />
+
     <Button
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/et_password"
+        android:layout_below="@id/spinner"
         android:background="@drawable/btn_custom"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

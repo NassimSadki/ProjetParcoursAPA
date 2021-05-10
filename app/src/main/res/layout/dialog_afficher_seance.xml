@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/linear_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Séance du JJ/MM"
+        android:textSize="15sp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Titre de l'activité"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:textSize="20sp"
+        android:textColor="@color/white"/>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="15dp"
+        android:text="Description de l'activité.........................."
+        android:textSize="15sp"
+        android:textColor="@color/white" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="De HH:MM à HH:MM"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="15sp"
+        android:textColor="@color/white" />
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" >
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom_white"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/ok" />
+
+        <Button
+            android:id="@+id/btn_reprogrammer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_custom_white"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toRightOf="@id/btn_ok"
+            android:padding="10dp"
+            android:textColor="@color/colorPrimary"
+            android:text="@string/reprogrammer"
+            android:layout_toEndOf="@id/btn_ok" />
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
