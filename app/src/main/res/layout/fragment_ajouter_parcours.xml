@@ -81,7 +81,6 @@
             android:layout_marginRight="20dp"
             android:layout_marginBottom="10dp"
             android:background="@drawable/et_custom"
-            android:entries="@array/liste_patients"
             android:padding="15dp"
             android:textSize="15sp" />
 

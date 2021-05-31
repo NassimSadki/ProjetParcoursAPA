@@ -1,8 +1,5 @@
 <resources>
     <string name="app_name">ProjetParcoursAPA</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="swipe_left_for_register">Glisser vers la droite pour s\'inscrire</string>
     <string name="login">Se connecter</string>
     <string name="password">Mot de passe</string>
@@ -27,21 +24,26 @@
     <string name="patient">Patient</string>
     <string name="valider">Valider</string>
     <string name="activite">Activité(s)</string>
-    <string name="duree">Durée</string>
+    <string name="duree">Durée en minutes</string>
     <string name="ajouter_activite">Ajouter une activité</string>
     <string name="annuler">Annuler</string>
     <string name="icone_fermer">icone fermer</string>
     <string name="activite_item">Activité :</string>
-    <string name="activite_structure">L\'activité se déroule dans une structure ?</string>
     <string name="oui">Oui</string>
     <string name="non">Non</string>
     <string name="ok">OK</string>
     <string name="reprogrammer">Reprogrammer</string>
     <string name="assigner_horaire">Assigner horaire</string>
-    <string-array name="liste_patients">
-        <item>NomPatient1 PrenomPatient1</item>
-        <item>NomPatient2 PrenomPatient2</item>
-        <item>NomPatient3 PrenomPatient3</item>
-    </string-array>
+    <string name="activite_assigner">Activité à assigner :</string>
+    <string name="agenda_du_patient">Agenda du patient :</string>
+    <string name="choisir_heure">Choisir l\'heure</string>
+    <string name="titre_deux_points">Titre :</string>
+    <string name="description_deux_points">Description :</string>
+    <string name="duree_deux_points">"Durée : %1$s"</string>
+    <string name="deroule_dans_structure">L\'activité se déroule dans une structure ?</string>
+    <string name="structure">Structure :</string>
+    <string name="discipline">Discipline</string>
+    <string name="seance_du">"Séance du %1$s/%2$s"</string>
+    <string name="heure_debut_fin">"De %1$sh%2$s à %3$sh%4$s"</string>
 </resources>
 

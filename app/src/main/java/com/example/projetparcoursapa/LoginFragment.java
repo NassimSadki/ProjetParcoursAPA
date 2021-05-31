@@ -47,7 +47,6 @@ public class LoginFragment extends Fragment implements AdapterView.OnItemSelecte
                 startActivity(espaceIntervenantIntent);
             }
             else{
-                // profil = Patient
                 Intent espacePatientIntent = new Intent(activity.getApplicationContext(), EspacePatient.class);
                 startActivity(espacePatientIntent);
             }

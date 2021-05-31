@@ -1,97 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.core.widget.NestedScrollView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent"
     android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:fillViewport="true"
     tools:context=".EspaceIntervenant">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/parcours"
-            android:textAlignment="center"
-            android:textSize="50sp"
-            android:layout_marginStart="25dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_horizontal"
-            android:layout_marginLeft="25dp" />
-
-        <TextView
-            android:id="@+id/textView1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/patient"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:textSize="15sp"/>
-
-        <Spinner
-            android:id="@+id/spinner"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/et_custom"
-            android:entries="@array/liste_patients"
-            android:padding="15dp"
-            android:textSize="15sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
         <LinearLayout
-            android:id="@+id/linear_layout"
-            android:layout_height="wrap_content"
+            android:id="@+id/linear_layout_global"
             android:layout_width="match_parent"
-            android:visibility="gone"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_logo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/parcours"
+                android:textAlignment="center"
+                android:textSize="50sp"
+                android:layout_marginStart="25dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_horizontal"
+                android:layout_marginLeft="25dp" />
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textView1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="@string/patient"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="Agenda du patient :"
+                android:textSize="15sp"/>
+
+            <Spinner
+                android:id="@+id/spinner"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/et_custom"
+                android:padding="15dp"
                 android:textSize="15sp" />
 
-            <com.alamkanak.weekview.WeekView
-                android:id="@+id/weekView"
-                android:layout_width="match_parent"
-                android:layout_height="520dp"
-                app:columnGap="8dp"
-                app:dayBackgroundColor="#05000000"
-                app:eventTextColor="@android:color/white"
-                app:headerColumnBackground="#ffffffff"
-                app:headerColumnPadding="8dp"
-                app:headerColumnTextColor="#8f000000"
-                app:headerRowBackgroundColor="#ffefefef"
-                app:headerRowPadding="12dp"
-                app:hourHeight="35dp"
-                app:maxTime="21"
-                app:minTime="8"
-                app:noOfVisibleDays="3"
-                app:textSize="12sp"
-                app:todayBackgroundColor="#1848adff" />
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:background="#353535"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"/>
-
             <LinearLayout
-                android:id="@+id/list_activite"
+                android:id="@+id/linear_layout"
+                android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:visibility="gone"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="@string/agenda_du_patient"
+                    android:textSize="15sp" />
+
+                <com.alamkanak.weekview.WeekView
+                    android:id="@+id/weekView"
+                    android:layout_width="match_parent"
+                    android:layout_height="520dp"
+                    app:columnGap="8dp"
+                    app:dayBackgroundColor="#05000000"
+                    app:eventTextColor="@android:color/white"
+                    app:headerColumnBackground="#ffffffff"
+                    app:headerColumnPadding="8dp"
+                    app:headerColumnTextColor="#8f000000"
+                    app:headerRowBackgroundColor="#ffefefef"
+                    app:headerRowPadding="12dp"
+                    app:hourHeight="35dp"
+                    app:maxTime="21"
+                    app:minTime="8"
+                    app:noOfVisibleDays="3"
+                    app:textSize="12sp"
+                    app:todayBackgroundColor="#1848adff"
+                    tools:targetApi="lollipop" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="#353535"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="5dp"/>
 
                 <TextView
                     android:id="@+id/activite"
@@ -106,71 +108,22 @@
                     android:textAlignment="center"
                     android:textSize="25sp" />
 
-                <TextView
-                    android:id="@+id/textView3"
+                <LinearLayout
+                    android:id="@+id/list_activite"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:text="Activité à assigner :"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/textView4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginTop="15dp"
-                    android:text="Titre de l'activité"
-                    android:textSize="15sp" />
-
-                <TextView
-                    android:id="@+id/textView5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginRight="20dp"
-                    android:layout_marginBottom="15dp"
-                    android:text="Description de l'activité.........................."
-                    android:textSize="15sp" />
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
-
-                    <TextView
-                        android:id="@+id/textView6"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Durée : HH:MM"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="20dp"
-                        android:textSize="15sp" />
-
-                    <Button
-                        android:id="@+id/btn_assigner_horaire"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/btn_custom"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginRight="20dp"
-                        android:layout_marginBottom="10dp"
-                        android:layout_toRightOf="@id/textView6"
-                        android:padding="5dp"
-                        android:text="@string/assigner_horaire"
-                        android:layout_toEndOf="@id/textView6"
-                        android:textColor="@color/white" />
-
-
-                </RelativeLayout>
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+                </LinearLayout>
 
             </LinearLayout>
 
         </LinearLayout>
 
+        <FrameLayout
+            android:id="@+id/conteneur_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
+
 </androidx.core.widget.NestedScrollView>

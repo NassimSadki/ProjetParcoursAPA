@@ -1,19 +1,25 @@
 package com.example.projetparcoursapa;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
 
-import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.alamkanak.weekview.MonthLoader;
 import com.alamkanak.weekview.WeekView;
@@ -26,15 +32,30 @@ import java.util.List;
 public class EspacePatient extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
 
     private int day, month, year;
-    private int myday, myMonth, myYear;
+    private int myDay, myMonth, myYear;
+    private Patient patient;
+    private String heureDebut;
+    private String minuteDebut;
+    private String heureFin;
+    private String minuteFin;
+    private Calendar startTime;
+    private WeekViewEvent event;
+    private WeekView mWeekView;
+
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    private final static String default_notification_channel_id = "default" ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_espace_patient);
 
+        // test avec le premier patient, à modifier selon le patient connecté
+        patient = Patient.allPatient.get(0);
+
+
         // Get a reference for the week view in the layout.
-        WeekView mWeekView = findViewById(R.id.weekView);
+        mWeekView = findViewById(R.id.weekView);
         // The week view has infinite scrolling horizontally. We have to provide the events of a
         // month every time the month changes on the week view.
         mWeekView.setMonthChangeListener(mMonthChangeListener);
@@ -46,8 +67,7 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
     WeekView.EventClickListener onEventClick = (event, eventRect) -> {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(event.getStartTime().getTime());
-        String heureDebut = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-        String minuteDebut;
+        heureDebut = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
         if(calendar.get(Calendar.MINUTE) == 0){
             minuteDebut = "00";
         }
@@ -55,8 +75,7 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
             minuteDebut = String.valueOf(calendar.get(Calendar.MINUTE));
         }
         calendar.setTime(event.getEndTime().getTime());
-        String heureFin = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
-        String minuteFin;
+        heureFin = String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
         if(calendar.get(Calendar.MINUTE) == 0){
             minuteFin = "00";
         }
@@ -64,26 +83,35 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
             minuteFin = String.valueOf(calendar.get(Calendar.MINUTE));
         }
 
-        // only for test purpose
-        // display info of the clicked event
-        Toast.makeText(this, "Clicked " + event.getName()
-                + "\nHeure début " + heureDebut + "h" + minuteDebut
-                + "\nHeure fin " + heureFin + "h" + minuteFin
-                , Toast.LENGTH_LONG).show();
-
-        // TODO: display info of the clicked event in the custom dialog
-
+        this.event = event;
         // display custom dialog
-        showCustomDialog(R.layout.dialog_afficher_seance, event.getColor());
+        showEventDialog();
     };
 
-    private void showCustomDialog(int layout, int color){
+    private void showEventDialog(){
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(EspacePatient.this);
-        View layoutView = getLayoutInflater().inflate(layout, null);
+        View layoutView = getLayoutInflater().inflate(R.layout.dialog_afficher_seance, null);
         LinearLayout linearLayout = layoutView.findViewById(R.id.linear_layout);
-        linearLayout.setBackgroundColor(color);
+        linearLayout.setBackgroundColor(event.getColor());
         Button dialogButton = layoutView.findViewById(R.id.btn_ok);
         dialogBuilder.setView(layoutView);
+
+        startTime = event.getStartTime();
+        String jour = String.valueOf(startTime.get(Calendar.DAY_OF_MONTH));
+        String mois = String.valueOf(startTime.get(Calendar.MONTH)+1);
+
+        TextView dateSeance = layoutView.findViewById(R.id.date_seance);
+        dateSeance.setText(getString(R.string.seance_du, jour, mois));
+
+        ArrayList<Activite> activiteAssignee = patient.getActiviteAssignee();
+        Activite activite = activiteAssignee.get(Integer.parseInt(event.getIdentifier()));
+        TextView titreActivite = layoutView.findViewById(R.id.titre_activite);
+        titreActivite.setText(activite.getTitre());
+        TextView descriptionActivite = layoutView.findViewById(R.id.description_activite);
+        descriptionActivite.setText(activite.getDescription());
+        TextView heureDebutFin = layoutView.findViewById(R.id.heure_debut_fin);
+        heureDebutFin.setText(getString(R.string.heure_debut_fin, heureDebut, minuteDebut, heureFin, minuteFin));
+
         AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
         dialogButton.setOnClickListener(view -> alertDialog.dismiss());
@@ -102,7 +130,7 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         myYear = year;
-        myday = day;
+        myDay = dayOfMonth;
         myMonth = month;
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR);
@@ -113,92 +141,65 @@ public class EspacePatient extends AppCompatActivity implements DatePickerDialog
     }
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-
-        // only for test purpose
-        // display info of the selected date time
-        Toast.makeText(this, "Year: " + myYear + "\n" +
-                "Month: " + myMonth + "\n" +
-                "Day: " + myday + "\n" +
-                "Hour: " + hourOfDay + "\n" +
-                "Minute: " + minute, Toast.LENGTH_LONG).show();
-
-        // TODO: process selected date time
+        startTime = Calendar.getInstance();
+        startTime.set(Calendar.YEAR, myYear);
+        startTime.set(Calendar.MONTH, myMonth);
+        startTime.set(Calendar.DAY_OF_MONTH, myDay);
+        startTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+        startTime.set(Calendar.MINUTE, minute);
+        // reprogrammer la séance à la date et à l'heure sélectionnée
+        patient.getAgenda().get(Integer.parseInt(event.getIdentifier())).setStartTime(startTime);
+        // mettre à jour l'affichage de l'agenda
+        mWeekView.notifyDatasetChanged();
     }
 
-
-    // Populate the week view with some events.
+    // remplir l'agenda du patient
     MonthLoader.MonthChangeListener mMonthChangeListener = this::getEvents;
 
+    // retourne les évenements du patient
     private List<WeekViewEvent> getEvents(int newYear, int newMonth){
+        ArrayList<Seance> agenda = patient.getAgenda();
         List<WeekViewEvent> events = new ArrayList<>();
+        for(int i=0; i<agenda.size(); i++){
+            WeekViewEvent event = new WeekViewEvent(
+                    i,
+                    agenda.get(i).getActivite().getTitre(),
+                    agenda.get(i).getStartTime(),
+                    agenda.get(i).getEndTime()
+            );
+            event.setColor(getResources().getColor(R.color.event_color_01));
+            events.add(event);
+            Calendar calendar = Calendar.getInstance();
+            // si la séance n'est pas encore passée, planifier une notification 15 minutes avant
+            if(calendar.before(agenda.get(i).getStartTime())){
+                long delay = agenda.get(i).getStartTime().getTimeInMillis() - calendar.getTimeInMillis() - 900000;
+                System.out.println("sysout : "+delay);
+                scheduleNotification(getNotification(), delay);
+            }
 
-        Calendar startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 8);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth-1);
-        startTime.set(Calendar.YEAR, newYear);
-        Calendar endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 2);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        WeekViewEvent event = new WeekViewEvent(1, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_01));
-        events.add(event);
-
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 14);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth-1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 2);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        event = new WeekViewEvent(2, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_02));
-        events.add(event);
-
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.HOUR_OF_DAY, 18);
-        startTime.set(Calendar.MINUTE, 0);
-        startTime.set(Calendar.MONTH, newMonth-1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        event = new WeekViewEvent(3, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_03));
-        events.add(event);
-
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.DAY_OF_MONTH, 11);
-        startTime.set(Calendar.HOUR_OF_DAY, 8);
-        startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth-1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 2);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        event = new WeekViewEvent(4, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_04));
-        events.add(event);
-
-        startTime = Calendar.getInstance();
-        startTime.set(Calendar.DAY_OF_MONTH, 12);
-        startTime.set(Calendar.HOUR_OF_DAY, 16);
-        startTime.set(Calendar.MINUTE, 30);
-        startTime.set(Calendar.MONTH, newMonth-1);
-        startTime.set(Calendar.YEAR, newYear);
-        endTime = (Calendar) startTime.clone();
-        endTime.add(Calendar.HOUR, 1);
-        endTime.set(Calendar.MONTH, newMonth-1);
-        event = new WeekViewEvent(5, getEventTitle(startTime), startTime, endTime);
-        event.setColor(getResources().getColor(R.color.event_color_05));
-        events.add(event);
-
+        }
         return events;
     }
 
-    @SuppressLint("DefaultLocale")
-    private String getEventTitle(Calendar time) {
-        return String.format("Event of %02d:%02d %s/%d", time.get(Calendar.HOUR_OF_DAY), time.get(Calendar.MINUTE), time.get(Calendar.MONTH)+1, time.get(Calendar.DAY_OF_MONTH));
+    private void scheduleNotification (Notification notification , long delay) {
+        Intent notificationIntent = new Intent(this, MyNotificationPublisher.class);
+        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(MyNotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        long futureInMillis = SystemClock.elapsedRealtime () + delay;
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context. ALARM_SERVICE );
+        assert alarmManager != null;
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
     }
+
+    private Notification getNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, default_notification_channel_id);
+        builder.setContentTitle("Notification Parcours APA");
+        builder.setContentText("Une de vos séances va commencer dans 15 minutes !");
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground);
+        builder.setAutoCancel(true);
+        builder.setChannelId(NOTIFICATION_CHANNEL_ID);
+        return builder.build();
+    }
+
 }
